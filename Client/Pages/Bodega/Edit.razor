@@ -1,0 +1,23 @@
+﻿@page "/editar/bodega/{IdBodega:int}"
+@inject HttpClient Http
+@inject NavigationManager UriHelper
+
+<h3>Editar Bodega</h3>
+
+<FormularioBodega TextoBoton="Editar Bodega" OnValidSubmit="@EditarBodega" Bodega="@bodega" />
+
+@code {
+    [Parameter] public int IdBodega { get; set; }
+    Bodega bodega = new Bodega();
+
+    protected async override Task OnParametersSetAsync()
+    {
+        bodega = await Http.GetFromJsonAsync<Bodega>($"api/bodega/get/{IdBodega}");
+    }
+
+    async Task EditarBodega()
+    {
+        await Http.PutAsJsonAsync($"api/bodega/edit/{IdBodega}", bodega);
+        UriHelper.NavigateTo("bodega/index");
+    }
+}

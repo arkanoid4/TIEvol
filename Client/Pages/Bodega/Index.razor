@@ -1,0 +1,71 @@
+﻿@page "/bodega/index"
+@inject HttpClient Http
+@inject IJSRuntime JS
+
+<h3>Bodega</h3>
+
+<div>
+    <a class="btn btn-success" href="crear/bodega">Nueva Bodega</a>
+</div>
+
+@if (bodegas == null)
+{
+    <text>Cargando...</text>
+}
+else
+{
+    <table class="table">
+        <thead>
+            <tr>
+                <th></th>
+                <th>Id</th>
+                <th>Codigo</th>
+                <th>Id_Sucursal</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var bodega in bodegas)
+            {
+                <tr>
+                    <td>
+                        <a class="btn btn-success" href="editar/bodega/@bodega.Id">Editar</a>
+                        <button class="btn btn-danger" @onclick="(() => BorrarBodega(bodega.Id))">Borrar</button>
+                    </td>
+                    <td>@bodega.Id</td>
+                    <td>@bodega.Codigo</td>
+                    <td>@bodega.Id_Sucursal</td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}
+
+@code {
+    Bodega[] bodegas { get; set; }
+
+    protected override async Task OnInitializedAsync()
+    {
+        await CargarBodega();
+    }
+
+    async Task CargarBodega()
+    {
+        bodegas = await Http.GetFromJsonAsync<Bodega[]>("api/bodega/getall");
+        //ciudades = new Ciudad[]
+        //{
+        //    new Ciudad(){ Id = 1, Nombre = "Antofagasta"},
+        //    new Ciudad(){ Id = 2, Nombre = "Valparaiso"},
+        //};
+    }
+
+    async Task BorrarBodega(int idbodega)
+    {
+        var bodegaSeleccionada = bodegas.First(b => b.Id == idbodega);
+        string mensajeConfirmacion = "¿Deseas borrar la bodega?";
+        if (await JS.InvokeAsync<bool>("confirm", mensajeConfirmacion))
+        {
+            await Http.DeleteAsync($"api/bodega/delete/{idbodega}");
+            await CargarBodega();
+        }
+    }
+}

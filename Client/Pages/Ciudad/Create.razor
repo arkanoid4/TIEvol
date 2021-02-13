@@ -1,0 +1,17 @@
+﻿@page "/crear/ciudad"
+@inject HttpClient Http
+@inject NavigationManager UriHelper
+
+<h3>Crear Ciudad</h3>
+
+<FormularioCiudad TextoBoton="Crear Ciudad" OnValidSubmit="@CrearCiudad" Ciudad="@ciudad"/>
+
+@code {
+    Ciudad ciudad = new Ciudad();
+
+    async Task CrearCiudad()
+    {
+        await Http.PostAsJsonAsync("api/ciudad/create", ciudad);
+        UriHelper.NavigateTo("ciudad/index");
+    }
+}

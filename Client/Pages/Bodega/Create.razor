@@ -1,0 +1,17 @@
+﻿@page "/crear/bodega"
+@inject HttpClient Http
+@inject NavigationManager UriHelper
+
+<h3>Crear Bodega</h3>
+
+<FormularioBodega TextoBoton="Crear Bodega" OnValidSubmit="@CrearBodega" Bodega="@bodega"/>
+
+@code {
+    Bodega bodega = new Bodega();
+
+    async Task CrearBodega()
+    {
+        await Http.PostAsJsonAsync("api/bodega/create", bodega);
+        UriHelper.NavigateTo("bodega/index");
+    }
+}

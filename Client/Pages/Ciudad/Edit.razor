@@ -1,0 +1,23 @@
+﻿@page "/editar/ciudad/{IdCiudad:int}"
+@inject HttpClient Http
+@inject NavigationManager UriHelper
+
+<h3>Editar Ciudad</h3>
+
+<FormularioCiudad TextoBoton="Editar Ciudad" OnValidSubmit="@EditarCiudad" Ciudad="@ciudad" />
+
+@code {
+    [Parameter] public int IdCiudad { get; set; }
+    Ciudad ciudad = new Ciudad();
+
+    protected async override Task OnParametersSetAsync()
+    {
+        ciudad = await Http.GetFromJsonAsync<Ciudad>($"api/ciudad/get/{IdCiudad}");
+    }
+
+    async Task EditarCiudad()
+    {
+        await Http.PutAsJsonAsync($"api/ciudad/edit/{IdCiudad}", ciudad);
+        UriHelper.NavigateTo("ciudad/index");
+    }
+}
