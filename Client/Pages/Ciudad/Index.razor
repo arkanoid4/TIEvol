@@ -1,6 +1,6 @@
 ﻿@page "/ciudad/index"
 @inject HttpClient Http
-@inject IJSRuntime JS 
+@inject IJSRuntime JS
 
 <h3>Ciudades</h3>
 
@@ -13,7 +13,7 @@
     <text>Cargando...</text>
 }
 else
-{ 
+{
     <table class="table">
         <thead>
             <tr>
@@ -24,7 +24,7 @@ else
         </thead>
         <tbody>
             @foreach (var ciudad in ciudades)
-            { 
+            {
                 <tr>
                     <td>
                         <a class="btn btn-success" href="editar/ciudad/@ciudad.Id">Editar</a>
@@ -39,7 +39,7 @@ else
 }
 
 @code {
-        Ciudad[] ciudades { get; set; }
+    Ciudad[] ciudades { get; set; }
 
     protected override async Task OnInitializedAsync()
     {

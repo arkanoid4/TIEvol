@@ -1,0 +1,19 @@
+﻿
+<EditForm Model="@Comuna" OnValidSubmit="@OnValidSubmit">
+    <div class="form-field">
+        <label>Nombre:</label>
+        <div>
+            <InputText @bind-Value="@Comuna.Nombre" />
+            <ValidationMessage For="@(() => Comuna.Nombre)" />
+        </div>
+    </div>
+
+    <button type="submit" class="btn btn-success">@TextoBoton</button>
+    <DataAnnotationsValidator />
+</EditForm>
+
+@code {
+    [Parameter] public Comuna Comuna { get; set; } = new Comuna();
+    [Parameter] public String TextoBoton { get; set; } = "Salvar Cambios";
+    [Parameter] public EventCallback OnValidSubmit { get; set; }
+}

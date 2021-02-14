@@ -1,0 +1,68 @@
+﻿@page "/comuna/index"
+@inject HttpClient Http
+@inject IJSRuntime JS
+
+<h3>Comunas</h3>
+
+<div>
+    <a class="btn btn-success" href="crear/comuna">Nueva Comuna</a>
+</div>
+
+@if (comunas == null)
+{
+    <text>Cargando...</text>
+}
+else
+{
+    <table class="table">
+        <thead>
+            <tr>
+                <th></th>
+                <th>Id</th>
+                <th>Nombre</th>
+                <th>Codigo</th>
+                <th>Id_Ciudad</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var comuna in comunas)
+            {
+                <tr>
+                    <td>
+                        <a class="btn btn-success" href="editar/comuna/@comuna.Id">Editar</a>
+                        <button class="btn btn-danger" @onclick="(() => BorrarComuna(comuna.Id))">Borrar</button>
+                    </td>
+                    <td>@comuna.Id</td>
+                    <td>@comuna.Nombre</td>
+                    <td>@comuna.Codigo</td>
+                    <td>@comuna.Id_Ciudad</td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}
+
+@code {
+    Comuna[] comunas { get; set; }
+
+    protected override async Task OnInitializedAsync()
+    {
+        await CargarComunas();
+    }
+
+    async Task CargarComunas()
+    {
+        comunas = await Http.GetFromJsonAsync<Comuna[]>("api/comuna/getall");
+    }
+
+    async Task BorrarComuna(int idComuna)
+    {
+        var ComunaSeleccionada = comunas.First(c => c.Id == idComuna);
+        string mensajeConfirmacion = "¿Deseas borrar la comuna?";
+        if (await JS.InvokeAsync<bool>("confirm", mensajeConfirmacion))
+        {
+            await Http.DeleteAsync($"api/comuna/delete/{idComuna}");
+            await CargarComunas();
+        }
+    }
+}

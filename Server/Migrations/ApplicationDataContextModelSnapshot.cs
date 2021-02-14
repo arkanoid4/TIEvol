@@ -71,7 +71,6 @@ namespace TIEvol.Server.Migrations
                         .HasColumnType("int");
 
                     b.Property<string>("Codigo")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<int>("Id_Ciudad")
@@ -95,19 +94,18 @@ namespace TIEvol.Server.Migrations
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<int>("Direccion")
-                        .HasColumnType("int")
-                        .HasMaxLength(50);
+                    b.Property<string>("Direccion")
+                        .HasColumnType("nvarchar(max)");
 
-                    b.Property<int>("Fono")
-                        .HasColumnType("int");
+                    b.Property<string>("Fono")
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<int>("Id_Comuna")
                         .HasColumnType("int");
 
-                    b.Property<int>("Nombre")
-                        .HasColumnType("int")
-                        .HasMaxLength(50);
+                    b.Property<string>("Nombre")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
 

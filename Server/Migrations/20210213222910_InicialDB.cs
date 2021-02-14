@@ -2,7 +2,7 @@
 
 namespace TIEvol.Server.Migrations
 {
-    public partial class InitialDB : Migration
+    public partial class InicialDB : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -25,9 +25,9 @@ namespace TIEvol.Server.Migrations
                 {
                     Id = table.Column<int>(nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    Nombre = table.Column<int>(maxLength: 50, nullable: false),
-                    Direccion = table.Column<int>(maxLength: 50, nullable: false),
-                    Fono = table.Column<int>(nullable: false),
+                    Nombre = table.Column<string>(nullable: false),
+                    Direccion = table.Column<string>(nullable: true),
+                    Fono = table.Column<string>(nullable: true),
                     Id_Comuna = table.Column<int>(nullable: false)
                 },
                 constraints: table =>
@@ -42,7 +42,7 @@ namespace TIEvol.Server.Migrations
                     Id = table.Column<int>(nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     Nombre = table.Column<string>(nullable: false),
-                    Codigo = table.Column<string>(nullable: false),
+                    Codigo = table.Column<string>(nullable: true),
                     Id_Ciudad = table.Column<int>(nullable: false),
                     CiudadId = table.Column<int>(nullable: true)
                 },

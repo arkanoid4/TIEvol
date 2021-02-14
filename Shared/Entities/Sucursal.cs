@@ -6,23 +6,19 @@ using System.Text;
 namespace TIEvol.Shared.Entities
 {
     public class Sucursal
-    {
-        [Key]
+    {   
         public int Id { get; set; }
         
         [Required]
-        [MaxLength(50)]
-        public int Nombre { get; set; }
+        public string Nombre { get; set; }
         
-        [Required]
-        [MaxLength(50)]
-        public int Direccion { get; set; }
         
-        // [RegularExpression(@"")]
-        [Required]
-        public int Fono { get; set; }
+        public string Direccion { get; set; }
         
-        [Required]
+        
+        public string Fono { get; set; }
+        
+        
         public int Id_Comuna { get; set; }
     }
 }

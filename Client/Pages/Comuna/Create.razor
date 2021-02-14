@@ -1,0 +1,17 @@
+﻿@page "/crear/comuna"
+@inject HttpClient Http
+@inject NavigationManager UriHelper
+
+<h3>Crear Comuna</h3>
+
+<FormularioComuna TextoBoton="Crear Comuna" OnValidSubmit="@CrearComuna" Comuna="@comuna" />
+
+@code {
+    Comuna comuna = new Comuna();
+
+    async Task CrearComuna()
+    {
+        await Http.PostAsJsonAsync("api/comuna/create", comuna);
+        UriHelper.NavigateTo("comuna/index");
+    }
+}

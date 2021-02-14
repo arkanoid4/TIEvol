@@ -1,1 +1,22 @@
 ﻿@page "/"
+@* Main Calendar features, ValueChanged event handling. *@
+<br />
+
+<TelerikCalendar Min="@min" Max="@max" ValueChanged="@MyValueChangeHandler" @bind-Date="@theDate">
+</TelerikCalendar>
+
+<br />
+The selected date is: @selectedDate
+
+@code {
+
+    private DateTime min = new DateTime(2015, 1, 1);
+    private DateTime max = new DateTime(2025, 12, 31);
+    private DateTime theDate { get; set; } = DateTime.Now;
+    private string selectedDate = "";
+
+    private void MyValueChangeHandler(DateTime newValue)
+    {
+        selectedDate = newValue.ToString("dd MMM yyyy");
+    }
+}

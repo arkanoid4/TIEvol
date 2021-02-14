@@ -1,0 +1,23 @@
+﻿@page "/editar/comuna/{IdComuna:int}"
+@inject HttpClient Http
+@inject NavigationManager UriHelper
+
+<h3>Editar Comuna</h3>
+
+<FormularioComuna TextoBoton="Editar Comuna" OnValidSubmit="@EditarComuna" Comuna="@comuna" />
+
+@code {
+    [Parameter] public int IdComuna { get; set; }
+    Comuna comuna = new Comuna();
+
+    protected async override Task OnParametersSetAsync()
+    {
+        comuna = await Http.GetFromJsonAsync<Comuna>($"api/comuna/get/{IdComuna}");
+    }
+
+    async Task EditarComuna()
+    {
+        await Http.PutAsJsonAsync($"api/comuna/edit/{IdComuna}", comuna);
+        UriHelper.NavigateTo("comuna/index");
+    }
+}

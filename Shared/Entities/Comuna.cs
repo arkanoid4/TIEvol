@@ -10,7 +10,6 @@ namespace TIEvol.Shared.Entities
         [Required]
         public string Nombre { get; set; }
         
-        [Required]
         public string Codigo { get; set; }
 
         public int Id_Ciudad { get; set; }

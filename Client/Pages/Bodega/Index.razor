@@ -51,11 +51,6 @@ else
     async Task CargarBodega()
     {
         bodegas = await Http.GetFromJsonAsync<Bodega[]>("api/bodega/getall");
-        //ciudades = new Ciudad[]
-        //{
-        //    new Ciudad(){ Id = 1, Nombre = "Antofagasta"},
-        //    new Ciudad(){ Id = 2, Nombre = "Valparaiso"},
-        //};
     }
 
     async Task BorrarBodega(int idbodega)

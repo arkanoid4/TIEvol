@@ -1,0 +1,17 @@
+﻿@page "/crear/sucursal"
+@inject HttpClient Http
+@inject NavigationManager UriHelper
+
+<h3>Crear Sucursal</h3>
+
+<FormularioSucursal TextoBoton="Crear Sucursal" OnValidSubmit="@CrearSucursal" Sucursal="@sucursal" />
+
+@code {
+    Sucursal sucursal = new Sucursal();
+
+    async Task CrearSucursal()
+    {
+        await Http.PostAsJsonAsync("api/sucursal/create", sucursal);
+        UriHelper.NavigateTo("sucursal/index");
+    }
+}

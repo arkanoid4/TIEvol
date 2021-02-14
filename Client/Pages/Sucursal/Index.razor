@@ -1,0 +1,75 @@
+﻿@page "/sucursal/index"
+@inject HttpClient Http
+@inject IJSRuntime JS
+
+<h3>Sucursales</h3>
+
+<div>
+    <a class="btn btn-success" href="crear/sucursal">Nueva Sucursal</a>
+</div>
+
+@if (sucursales == null)
+{
+    <text>Cargando...</text>
+}
+else
+{
+    <table class="table">
+        <thead>
+            <tr>
+                <th></th>
+                <th>Id</th>
+                <th>Nombre</th>
+                <th>Direccion</th>
+                <th>Fono</th>
+                <th>Id_Comuna</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var sucursal in sucursales)
+            {
+                <tr>
+                    <td>
+                        <a class="btn btn-success" href="editar/sucursal/@sucursal.Id">Editar</a>
+                        <button class="btn btn-danger" @onclick="(() => BorrarSucursal(sucursal.Id))">Borrar</button>
+                    </td>
+                    <td>@sucursal.Id</td>
+                    <td>@sucursal.Nombre</td>
+                    <td>@sucursal.Direccion</td>
+                    <td>@sucursal.Fono</td>
+                    <td>@sucursal.Id_Comuna</td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}
+
+@code {
+    Sucursal[] sucursales { get; set; }
+
+    protected override async Task OnInitializedAsync()
+    {
+        await CargarSucursales();
+    }
+
+    async Task CargarSucursales()
+    {
+        sucursales = await Http.GetFromJsonAsync<Sucursal[]>("api/sucursal/getall");
+        //sucursales = new Sucursal[]
+        //{
+        //    new Sucursal(){ Id = 1, Nombre = "Antofagasta"},
+        //    new Sucursal(){ Id = 2, Nombre = "Valparaiso"},
+        //};
+    }
+
+    async Task BorrarSucursal(int idsucursal)
+    {
+        var sucursalSeleccionada = sucursales.First(s => s.Id == idsucursal);
+        string mensajeConfirmacion = "¿Deseas borrar la sucursal?";
+        if (await JS.InvokeAsync<bool>("confirm", mensajeConfirmacion))
+        {
+            await Http.DeleteAsync($"api/sucursal/delete/{idsucursal}");
+            await CargarSucursales();
+        }
+    }
+}
